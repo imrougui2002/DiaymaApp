@@ -22,16 +22,18 @@ Un seul projet : `Diayma` (`P2FixAnAppDotNetCode/Diayma.csproj`).
 ## Question 8 – Parcours de débogage
 | Ordre | Namespace | Classe | Méthode | Mode | Justification |
 |---|---|---|---|---|---|
-| 1 | P2FixAnAppDotNetCode | Startup | constructeur | (arrêt initial) | Premier point d'arrêt au démarrage |
-| 2 | P2FixAnAppDotNetCode | Startup | ConfigureServices | [mode] | [pourquoi] |
-| 3 | P2FixAnAppDotNetCode.Models.Services | ProductService | constructeur | [mode] | Injection de dépendances |
-| 4 | [namespace] | ProductController | constructeur | [mode] | [pourquoi] |
-| 5 | P2FixAnAppDotNetCode.Models.Services | ProductService | GetAllProducts | [mode] | [pourquoi] |
-| 6 | [namespace] | ProductRepository | GetAllProducts | [mode] | [pourquoi] |
-| 7 | [namespace] | CartSummaryViewComponent | constructeur | [mode] | [pourquoi] |
-| 8 | [namespace généré] | vue _Layout.cshtml | CartSummary / RenderBody | [mode] | [pourquoi] |
+| 1 | P2FixAnAppDotNetCode | Startup | constructeur (ligne 20) | (arrêt initial) | Premier point d'arrêt atteint au démarrage de l'application |
+| 2 | P2FixAnAppDotNetCode | Startup | ConfigureServices (ligne 32) | Step Over | Chaque ligne enregistre un service : il n'y a rien à explorer à l'intérieur |
+| 3 | P2FixAnAppDotNetCode.Models.Services | ProductService | constructeur (ligne 15) | Continue | Construit par l'injection de dépendances avant le contrôleur ; on saute jusqu'au prochain point d'arrêt |
+| 4 | P2FixAnAppDotNetCode.Controllers | ProductController | constructeur (lignes 15 à 17) | Step Over | Simples affectations de champs, sans appel à explorer |
+| 5 | P2FixAnAppDotNetCode.Controllers | ProductController | Index (ligne 20) | Continue | Point d'arrêt sur l'action qui traite la requête de la page d'accueil |
+| 6 | P2FixAnAppDotNetCode.Models.Services | ProductService | GetAllProducts (ligne 25) | Step Into | On entre dans le code de la boutique appelé par Index |
+| 7 | [P2FixAnAppDotNetCode.Models.Repositories] | ProductRepository | GetAllProducts (lignes 42 à 44) | Step Into, puis Step Over | Step Into pour entrer dans le dépôt, Step Over pour passer la ligne LINQ (Where, OrderBy) sans entrer dans le framework |
+| 8 | [P2FixAnAppDotNetCode.Components] | CartSummaryViewComponent | constructeur (ligne 12) | Continue | Point d'arrêt atteint pendant le rendu de la vue |
+| 9 | [namespace généré par ASP.NET] | vue _Layout.cshtml | CartSummary (ligne 22), RenderBody (ligne 27) | Step Over | On passe l'appel du composant de vue, déjà vu, pour arriver au rendu du corps de la page |
 
 Rappel des modes : Step Over (principal), Step Into (détaillé), Step Out (sortant).
+Remarque : le débogueur indique « Stepping over non-user code ... LanguageService..ctor » : ce constructeur n'est pas écrit dans le projet, donc il est ignoré par « Just My Code ».
 
 ## Question 10 – Lien vers le zip
 https://drive.google.com/file/d/1e7bY6dRhAAz9Ts9r1A66bRSOj8-SJbKy/view?usp=drive_link
