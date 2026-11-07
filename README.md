@@ -13,6 +13,9 @@ Un seul projet : `Diayma` (`P2FixAnAppDotNetCode/Diayma.csproj`).
 ## Question 3 – Version du SDK
 `netcoreapp2.0` (.NET Core 2.0, ASP.NET Core 2.0).
 
+## Question 4 – SDK
+SDK .NET 6.0.136 installé sur macOS ; le projet d'origine cible .NET Core 2.0, migré vers net6.0.
+
 ## Question 6 – Bugs trouvés
 1. **Total et moyenne du panier faux** (`Cart.GetTotalValue` et `GetAverageValue`) :
    ils utilisent `Product.Price` sans multiplier par `Quantity`.
@@ -38,3 +41,8 @@ Remarque : le débogueur indique « Stepping over non-user code ... LanguageServ
 ## Question 10 – Lien vers le zip
 https://drive.google.com/file/d/1e7bY6dRhAAz9Ts9r1A66bRSOj8-SJbKy/view?usp=drive_link
 
+## Option 11 – Langue Wolof
+- Culture `wo` ajoutée dans `Startup.cs`, avec conservation des cultures du français (`fr`, `fr-FR`).
+- Option « Wolof » ajoutée au sélecteur de langue (`LanguageService.cs` et vue `LanguageSelector`).
+- Fichiers de ressources `.wo.resx` créés pour chaque vue, contrôleur et modèle.
+- Traductions : non traduit.
